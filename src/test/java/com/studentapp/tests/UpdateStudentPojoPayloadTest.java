@@ -23,7 +23,7 @@ public class UpdateStudentPojoPayloadTest extends TestBase {
 
 		Response response = given()
 		.contentType(ContentType.JSON)
-		.body(student)
+		.body(student).log().all()
 		.when()
 		.put("/105");
 		

@@ -11,13 +11,13 @@ public class TestBase {
 	@BeforeMethod
 	public static void init() {
 		RestAssured.baseURI="http://localhost";
-		RestAssured.port=8080;
+		RestAssured.port=8081;
 		RestAssured.basePath="/student";
 	}
 	
 	@AfterMethod
 	public static void tearDown() {
-		
+		RestAssured.reset();
 	}
 	
 	

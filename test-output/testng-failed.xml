@@ -3,13 +3,13 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.studentapp.tests.CreateStudentPojoPayloadTest">
+      <class name="com.studentapp.tests.UpdateStudentPojoPayloadTest">
         <methods>
-          <include name="createNewStudentwithPojo"/>
+          <include name="updateStudent"/>
           <include name="tearDown"/>
           <include name="init"/>
         </methods>
-      </class> <!-- com.studentapp.tests.CreateStudentPojoPayloadTest -->
+      </class> <!-- com.studentapp.tests.UpdateStudentPojoPayloadTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

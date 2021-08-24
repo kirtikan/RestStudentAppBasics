@@ -1,10 +1,13 @@
 package com.studentapp.tests;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hamcrest.core.Is;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -12,7 +15,12 @@ import com.studentapp.base.TestBase;
 import com.studentapp.model.CreateStudentRequestPojo;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
 
 public class MyFirstTest extends TestBase{
 
@@ -39,10 +47,10 @@ public class MyFirstTest extends TestBase{
 		
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("programme", "Computer Science");
-		params.put("limit", 1);
+		params.put("limit", 2);
 		
 		Response response =given()
-		.queryParams(params)
+		.queryParams(params).log().all()
 		.when()
 		.get("/list");
 		
@@ -51,17 +59,38 @@ public class MyFirstTest extends TestBase{
 	
 	@Test
 	void getTheFirstStudent() {
+
+//		Response resp = given()
+//		.pathParam("id", 1).log().all()
+//		.when()
+//		.get("/{id}");	
+//		System.out.println(resp.asPrettyString());
 		
-		Response resp = given()
-		.pathParam("id", 1)
-		.when()
-		.get("/{id}");
+		//CreateStudentRequestPojo sObject= resp.getBody().as(CreateStudentRequestPojo.class);	
+		//Assert.assertEquals(sObject.getEmail(), "egestas.rhoncus.Proin@massaQuisqueporttitor.org");
+			
 		
-		System.out.println(resp.asPrettyString());
+		RequestSpecification rs = given().pathParam("id", 1).log().all();
 		
-		CreateStudentRequestPojo sObject= resp.getBody().as(CreateStudentRequestPojo.class);	
-		Assert.assertEquals(sObject.getEmail(), "egestas.rhoncus.Proin@massaQuisqueporttitor.org");
-				
+		ValidatableResponse rv = rs.when().get("/{id}").then();
+		rv.body("id", equalTo(1));
+		rv.body("courses", hasItems("Accounting","Statistics"));
+		
+		
+		
+//		RequestSpecBuilder rSB = new RequestSpecBuilder();
+//		rSB.setBaseUri("http://localhost").setPort(8081).setBasePath("/student").addPathParam("id", 1);		
+//		RequestSpecification rsNew =	rSB.build();
+//		
+//		ResponseSpecBuilder rSBNew = new ResponseSpecBuilder();
+//		rSBNew.expectStatusCode(200).expectBody("id", equalTo(1)).expectBody("courses", hasItems("Accounting","Statistics"));
+		
+		
+//		ResponseSpecification rNew=rSBNew.build();
+//		
+//		given().spec(rsNew).log().all().when().get("/{id}").then().spec(rNew).log().all();
+		
+	
 		//RestAssured.reset();
 	}
 }
